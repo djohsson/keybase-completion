@@ -88,8 +88,8 @@ case $state in
                             _arguments \
                                 "-p[Output pretty (indented) JSON.]" \
                                 "-m[Specify JSON as string instead of stdin]" \
-                                "-i[Specify JSON input file (stdin default)]:_file" \
-                                "-o[Specify output file (stdout default)]:_file"
+                                "-i[Specify JSON input file (stdin default)]:filename:_files" \
+                                "-o[Specify output file (stdout default)]:filename:_files"
                             ;;
                     esac
                     ;;
@@ -171,7 +171,7 @@ case $state in
                 "purge:Purge all PGP keys from Keybase keyring"
             )
             _arguments \
-                "1: :{_describe 'command' chat_com}" \
+                "1: :{_describe 'pgp commands' pgp_com}" \
                 "*:: :->args"
             case $state in
                 args)
@@ -198,46 +198,46 @@ case $state in
                                 "-b[Output binary message (default is armored)]" \
                                 "-c[Generate a clearsigned text signature]" \
                                 "-d[Detached signature (default is attached)]" \
-                                "-i[Specify an input file]:_file" \
+                                "-i[Specify an input file]:filename:_files" \
                                 "-k[Specify a key to use for signing (otherwise most recent PGP key is used)]" \
                                 "-m[Provide the message to sign on the command line]" \
-                                "-o[Specify an outfile (default is STDOUT)]:_file" \
+                                "-o[Specify an outfile (default is STDOUT)]:filename:_files" \
                                 "-t[Treat input data as text and canonicalize]"
                             ;;
                         encrypt)
                             _arguments \
                                 "-b[Output binary message (default is armored)]" \
-                                "-i[Specify an input file]:_file" \
+                                "-i[Specify an input file]:filename:_files" \
                                 "-k[Specify a key to use for signing (otherwise most recent PGP key is used)]" \
                                 "-m[Provide the message to sign on the command line]" \
                                 "--no-self[Don't encrypt for self]" \
-                                "-o[Specify an outfile (default is STDOUT)]:_file" \
+                                "-o[Specify an outfile (default is STDOUT)]:filename:_files" \
                                 "-s[Sign in addition to encrypting]"
                             ;;
                         decrypt)
                             _arguments \
-                                "-i[Specify an input file]:_file" \
+                                "-i[Specify an input file]:filename:_files" \
                                 "-m[Provide the message to sign on the command line]" \
-                                "-o[Specify an outfile (default is STDOUT)]:_file" \
+                                "-o[Specify an outfile (default is STDOUT)]:filename:_files" \
                                 "-s[Assert signed]" \
                                 "-s[Assert signed by the given user (can use user assertion format)]"
                             ;;
                         verify)
                             _arguments \
                                 "-d[Detached signature (default is attached)]" \
-                                "-i[Specify an input file]:_file" \
+                                "-i[Specify an input file]:filename:_files" \
                                 "-m[Provide the message to sign on the command line]" \
                                 "-S[Assert signed by the given user (can use user assertion format)]"
                             ;;
                         export)
                             _arguments \
-                                "-o[Specify an outfile (stdout by default)]:_file" \
+                                "-o[Specify an outfile (stdout by default)]:filename:_files" \
                                 "-s[Export secret key]" \
                                 "-q[Only export keys matching that query]"
                             ;;
                         import)
                             _arguments \
-                                "-i[Specify an infile (stdin by default)]:_file" \
+                                "-i[Specify an infile (stdin by default)]:filename:_files" \
                                 "--push-secret[Push an encrypted copy of the secret key to the server]"
                             ;;
                         purge)
@@ -253,6 +253,8 @@ case $state in
                 "--gregor[ping the Gregor server]"
 			;;
         prove)
+            _arguments \
+                "-o[Output proof text to a file (rather than standard out)]:filename:_files"
 			;;
         rekey)
 			;;
