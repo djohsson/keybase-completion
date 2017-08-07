@@ -1,0 +1,292 @@
+#compdef keybase
+
+local -a commands
+commands=(
+    "base62:base62 operations"
+    "cert:Print the CA cert for api.keybase.io"
+    "chat:Chat securely with keybase users"
+    "ctl:Control the background keybase service"
+    "currency:Manage cryptocurrency addresses"
+    "decrypt:Decrypt messages or files for keybase users"
+    "deprovision:Revoke the current device, log out, and delete local state"
+    "device:Manage your devices"
+    "dump-keyfamily:Print out a user's current key family"
+    "encrypt:Encrypt messages or files for keybase users"
+    "follow:Verify a user's authenticity and optionally follow them"
+    "fs:Perform filesystem operations"
+    "fuse:Manage fuse"
+    "id:Identify a user and check their signature chain"
+    "install:Installs Keybase components"
+    "launchd:Manage launchd"
+    "list-followers:List those who follow you"
+    "list-following:List who you or the given user is following"
+    "logs:Manage keybase logs"
+    "login:Establish a session with the keybase server"
+    "logout:Logout and remove session information"
+    "paperkey:Generate paper keys for recovering your account"
+    "passphrase:Change or recover your keybase passphrase"
+    "pgp:Manage keybase PGP keys"
+    "ping:Ping the keybase API server"
+    "prove:Generate a new proof"
+    "rekey:Rekey status and actions"
+    "search:Search for keybase users"
+    "sign:Sign a document"
+    "signup:Signup for a new account"
+    "sigs:Manage signatures"
+    "status:Show information about current user"
+    "unfollow:Unfollow a user"
+    "uninstall:Uninstalls Keybase components"
+    "update:The updater"
+    "verify:Verify message or file signatures for keybase users"
+    "version:Print out version and build information"
+    "help:Shows a list of commands or help for one command"
+    "advanced:Description of advanced global options"
+    "gpg:Description of how keybase interacts with GPG"
+    "keyring:Description of how keybase stores secret keys locally"
+    "tor:Description of how keybase works with Tor"
+)
+_arguments \
+    "1: :{_describe 'command' commands}" \
+    "*:: :->args"
+case $state in
+    args)
+
+    case $words[1] in
+        base62)
+            b62_com=(
+                "decode:base62 decode"
+                "encode:base62 encode"
+            )
+            _describe "base62 commands" b62_com
+            ;;
+        cert)
+            ;;
+        chat)
+            chat_com=(
+                "api:JSON api"
+                "download:Download an attachment from a conversation"
+                "hide:Hide or block a conversation"
+                "join-channel:Join a conversation channel"
+                "leave-channel:Leave a conversation channel"
+                "list:List conversations, sorted by activity"
+                "list-channels:List on channels on a team"
+                "list-members:List members of a chat channel (must be a member of that channel)"
+                "list-unread:List conversations, with unread messages at the top"
+                "mute:Mute or unmute a conversation"
+                "read:Show new messages in a conversation and mark them as read"
+                "report:Report a conversation (also blocks it)"
+                "send:Send a message to a conversation"
+                "upload:Upload an attachment to a conversation"
+            )
+            _arguments \
+                "1: :{_describe 'command' chat_com}" \
+                "*:: :->args"
+            case $state in
+                args)
+                    case $words[1] in
+                        api)
+                            _arguments \
+                                "-p[Output pretty (indented) JSON.]" \
+                                "-m[Specify JSON as string instead of stdin]" \
+                                "-i[Specify JSON input file (stdin default)]:_file" \
+                                "-o[Specify output file (stdout default)]:_file"
+                            ;;
+                    esac
+                    ;;
+            esac
+            ;;
+        ctl)
+            ;;
+        currency)
+            ;;
+        decrypt)
+            ;;
+        deprovision)
+            ;;
+        device)
+            dev_com=(
+                "remove:Remove a device"
+                "list:List devices"
+                "add:Authorize a new device"
+            )
+            _describe "device commands" dev_com
+            ;;
+        dump-keyfamily)
+            ;;
+        encrypt)
+            _arguments \
+                "-b[Output in binary (rather than ASCII/armored)]" \
+                "-i[Specify an input file]" \
+                "-m[Provide the message on the command line]" \
+                "-o[Specify an outfile (stdout by default)]" \
+                "--anonymous[Don't include a sender]" \
+                "--current-device-only[Don't use any forward-compatible keys or server assistance]" \
+                "--no-self[Don't encrypt for yourself. Requires --current-devices-only]" \
+                "--saltpack-version[Force a specific saltpack version]"
+			;;
+        follow)
+            _arguments \
+                "-l[Only follow locally, don't send a public statement to the server]" \
+                "-y[Approve remote following without prompting]" \
+                "-s[Skip cached proofs, force re-check]"
+			;;
+        fs)
+			;;
+        fuse)
+			;;
+        id)
+			;;
+        install)
+			;;
+        launchd)
+			;;
+        list-followers)
+			;;
+        list-following)
+			;;
+        logs)
+			;;
+        login)
+			;;
+        logout)
+			;;
+        paperkey)
+			;;
+        passphrase)
+			;;
+        pgp)
+            pgp_com=(
+                "gen:Generate a new PGP key and write to local secret keychain"
+                "pull:Download the latest PGP keys for people you track"
+                "update:Update your public PGP keys on keybase with those exported from the local GPG keyring"
+                "select:Select a key as your own and register the public half with the server"
+                "sign:PGP sign a document"
+                "encrypt:PGP encrypt messages or files for keybase users"
+                "decrypt:PGP decrypt messages or files for keybase users"
+                "verify:PGP verify message or file signatures for keybase users"
+                "export:Export a PGP key from keybase"
+                "import:Import a PGP key into keybase"
+                "drop:Drop Keybase's use of a PGP key"
+                "list:List the active PGP keys in your account"
+                "purge:Purge all PGP keys from Keybase keyring"
+            )
+            _arguments \
+                "1: :{_describe 'command' chat_com}" \
+                "*:: :->args"
+            case $state in
+                args)
+                    case $words[1] in
+                        gen)
+                            _arguments \
+                                "-d[Generate small keys for debugging]" \
+                                "--pgp-uid[Specify custom PGP uid(s)]" \
+                                "--multi[Allow multiple PGP keys]" \
+                                "--no-export[Disable exporting of new keys to GPG keychain]"
+                            ;;
+                        update)
+                            _arguments \
+                                "--all[Update all available keys]"
+                            ;;
+                        select)
+                            _arguments \
+                                "--multi[Allow multiple PGP keys]" \
+                                "--no-import[Don't import private key to the local Keybase keyring]" \
+                                "--only-import[Only import the secret key into the local Keybase keyring]"
+                            ;;
+                        sign)
+                            _arguments \
+                                "-b[Output binary message (default is armored)]" \
+                                "-c[Generate a clearsigned text signature]" \
+                                "-d[Detached signature (default is attached)]" \
+                                "-i[Specify an input file]:_file" \
+                                "-k[Specify a key to use for signing (otherwise most recent PGP key is used)]" \
+                                "-m[Provide the message to sign on the command line]" \
+                                "-o[Specify an outfile (default is STDOUT)]:_file" \
+                                "-t[Treat input data as text and canonicalize]"
+                            ;;
+                        encrypt)
+                            _arguments \
+                                "-b[Output binary message (default is armored)]" \
+                                "-i[Specify an input file]:_file" \
+                                "-k[Specify a key to use for signing (otherwise most recent PGP key is used)]" \
+                                "-m[Provide the message to sign on the command line]" \
+                                "--no-self[Don't encrypt for self]" \
+                                "-o[Specify an outfile (default is STDOUT)]:_file" \
+                                "-s[Sign in addition to encrypting]"
+                            ;;
+                        decrypt)
+                            _arguments \
+                                "-i[Specify an input file]:_file" \
+                                "-m[Provide the message to sign on the command line]" \
+                                "-o[Specify an outfile (default is STDOUT)]:_file" \
+                                "-s[Assert signed]" \
+                                "-s[Assert signed by the given user (can use user assertion format)]"
+                            ;;
+                        verify)
+                            _arguments \
+                                "-d[Detached signature (default is attached)]" \
+                                "-i[Specify an input file]:_file" \
+                                "-m[Provide the message to sign on the command line]" \
+                                "-S[Assert signed by the given user (can use user assertion format)]"
+                            ;;
+                        export)
+                            _arguments \
+                                "-o[Specify an outfile (stdout by default)]:_file" \
+                                "-s[Export secret key]" \
+                                "-q[Only export keys matching that query]"
+                            ;;
+                        import)
+                            _arguments \
+                                "-i[Specify an infile (stdin by default)]:_file" \
+                                "--push-secret[Push an encrypted copy of the secret key to the server]"
+                            ;;
+                        purge)
+                            _arguments \
+                                "-p[After export, purge keys from keyring]"
+                            ;;
+                    esac
+                    ;;
+            esac
+			;;
+        ping)
+            _arguments \
+                "--gregor[ping the Gregor server]"
+			;;
+        prove)
+			;;
+        rekey)
+			;;
+        search)
+			;;
+        sign)
+			;;
+        signup)
+			;;
+        sigs)
+			;;
+        status)
+			;;
+        unfollow)
+			;;
+        uninstall)
+			;;
+        update)
+			;;
+        verify)
+			;;
+        version)
+			;;
+        help)
+            _describe "commands" commands
+			;;
+        advanced)
+			;;
+        gpg)
+			;;
+        keyring)
+			;;
+        tor)
+			;;
+    esac
+    ;;
+esac
