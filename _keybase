@@ -59,8 +59,6 @@ case $state in
             )
             _describe "base62 commands" b62_com
             ;;
-        cert)
-            ;;
         chat)
             chat_com=(
                 "api:JSON api"
@@ -100,6 +98,14 @@ case $state in
         currency)
             ;;
         decrypt)
+            _arguments \
+                "-i[Specify an input file]:filename:_files" \
+                "-m[Provide the message on the command line]" \
+                "-o[Specify an outfile (stdout by default)]:filename:_files" \
+                "--interactive[Interactive prompt for decryption after sender verification]" \
+                "-f[Force unprompted decryption, even on an identify failure]" \
+                "--paperkey[Use a paper key for decryption]" \
+                "--encryptor-outfile[Write the Keybase name of the encryptor to this file]:filename:_files"
             ;;
         deprovision)
             ;;
@@ -116,9 +122,9 @@ case $state in
         encrypt)
             _arguments \
                 "-b[Output in binary (rather than ASCII/armored)]" \
-                "-i[Specify an input file]" \
+                "-i[Specify an input file]:filename:_files" \
                 "-m[Provide the message on the command line]" \
-                "-o[Specify an outfile (stdout by default)]" \
+                "-o[Specify an outfile (stdout by default)]:filename:_files" \
                 "--anonymous[Don't include a sender]" \
                 "--current-device-only[Don't use any forward-compatible keys or server assistance]" \
                 "--no-self[Don't encrypt for yourself. Requires --current-devices-only]" \
@@ -141,8 +147,15 @@ case $state in
         launchd)
 			;;
         list-followers)
+            _arguments \
+                "-v[A full dump, with more gory details]"
 			;;
         list-following)
+            _arguments \
+                "-f[Provide a regex filter]" \
+                "-H[Show column headers]" \
+                "-j[Output as JSON (default is text)]" \
+                "-v[A full dump, with more gory details]"
 			;;
         logs)
 			;;
@@ -253,28 +266,47 @@ case $state in
                 "--gregor[ping the Gregor server]"
 			;;
         prove)
-            _arguments \
-                "-o[Output proof text to a file (rather than standard out)]:filename:_files"
-			;;
+            ;;
         rekey)
 			;;
-        search)
-			;;
         sign)
+            _arguments \
+                "-b[Output binary message (default is armored)]" \
+                "-d[Detached signature (default is attached)]" \
+                "-i[Specify an input file]:filename:_files" \
+                "-m[Provide the message to sign on the command line]" \
+                "-o[Specify an outfile (default is STDOUT)]:filename:_files" \
+                "--saltpack_version[Force a specific saltpack version]"
 			;;
         signup)
 			;;
         sigs)
 			;;
-        status)
+        status|search)
+            _arguments \
+                "-j[Output status as JSON]"
 			;;
         unfollow)
 			;;
         uninstall)
 			;;
         update)
+            update_com=(
+                "check:Check for update"
+                "check-in-use:Check if we are in use (safe for restart)"
+                "notify:Notify the service about an update event"
+            )
+            _describe "update commands" update_com
 			;;
         verify)
+            _arguments \
+                "-d[Specify a detached signature file]:filename:_files" \
+                "-i[Specify an input file]:filename:_files" \
+                "-m[Provide the message to verify on the command line]" \
+                "--no-output[Don't output the verified message]" \
+                "-o[Specify an outfile (stdout by default)]:filename:_files" \
+                "-S[Assert signed by the given user (can use user assertion format)]" \
+                "-f[Output the verified message even if the sender's identity can't be verified]"
 			;;
         version)
 			;;
