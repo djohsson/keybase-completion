@@ -1,5 +1,5 @@
 # keybase-completion
-Zsh completion for keybase-completion
+Zsh completion for Keybase
 
 Every other Keybase completion I could find was either deprecated, or did not complete options for the commands.
 
