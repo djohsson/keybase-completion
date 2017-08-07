@@ -1,5 +1,9 @@
 #compdef keybase
 
+# Copyright 2017 David Johansson
+# https://github.com/djohsson
+
+
 local -a commands
 commands=(
     "base62:base62 operations"
