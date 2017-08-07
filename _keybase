@@ -141,6 +141,8 @@ case $state in
         fuse)
 			;;
         id)
+            _arguments \
+                "-s[Skip cached proofs, force re-check]"
 			;;
         install)
 			;;
@@ -281,6 +283,30 @@ case $state in
         signup)
 			;;
         sigs)
+            sig_com=(
+                "list:List signatures"
+                "revoke:revoke a signature by sig ID"
+            )
+            _arguments \
+                "1: :{_describe 'sigs commands' sig_com}" \
+                "*:: :->args"
+            case $state in
+                args)
+                    case $words[1] in
+                        list)
+                            _arguments \
+                                "-r[Include revoked signatures]" \
+                                "-j[Output as JSON (default is text)]" \
+                                "-v[A full dump, with more gory details]" \
+                                "-t[Type of sig to output: follow, proof, cryptocurrency, self, all (default is all)]" \
+                                "-a[Show signatures from all (replaced) keys]" \
+                                "-H[Show column headers]" \
+                                "-f[Provide a regex filter]"
+                            ;;
+
+                    esac
+                    ;;
+            esac
 			;;
         status|search)
             _arguments \
